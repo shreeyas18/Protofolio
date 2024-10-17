@@ -1,0 +1,181 @@
+library(rio)
+library(tidyverse)
+library(ggplot2)
+
+# Importing needed data files
+sec8f <- import("raw_data/sec8f.dta")
+sec8b <- import("raw_data/sec8b.dta")
+agg2 <- import("raw_data/aggregates/agg2.dta")
+
+# calculating acre
+sec8b <- subset(sec8b, s8bq4b != 4)
+sec8b$acre <- ifelse(grepl(3, sec8b$s8bq4b), sec8b$s8bq4a/9, sec8b$s8bq4a)
+
+# Sum the 'acre' column for total farm land size
+# Aggregate the sec8b data including the 'clust' variable
+sec8b_aggregated <- sec8b %>%
+  group_by(nh, clust) %>%
+  summarise(
+    total_farm_land_size = sum(acre, na.rm = TRUE)
+  ) %>%
+  ungroup()
+
+agg2_aggregated <- agg2 %>%
+  group_by(nh, clust) %>%
+  summarise(
+    total_agricultural_income = sum(agri1, na.rm = TRUE)
+  ) %>%
+  ungroup()
+
+# Merge with other cleaned datasets
+final_aggregated_data <- merge(sec8b_aggregated, agg2_aggregated, by = c("nh", "clust"), all = TRUE)
+final_aggregated_data <- subset(final_aggregated_data,total_farm_land_size != 0)
+
+# Profit per acre. Labeling 
+final_aggregated_data <- mutate(final_aggregated_data,
+                                profit_per_acre = total_agricultural_income / total_farm_land_size)
+
+summary(final_aggregated_data)
+landsize_regression <- lm(formula = profit_per_acre ~ total_farm_land_size,
+                        data = final_aggregated_data)
+summary(landsize_regression)
+ 
+# Bar Graph based on landsize_regression data
+ggplot(landsize_regression, aes(x = factor(total_farm_land_size), y = profit_per_acre)) +
+  geom_bar(stat = "summary", fun = "mean", fill = "darkgreen", color = "black") +
+  labs(title = "Profit Per Acre Based On Total Land Size",
+       x = "Land Size in Acres",
+       y = "Mean Profit per Acre") +
+  theme_minimal()
+
+# How far from this village is there a motorable road?
+community <- import("raw_data/community/cs2.dta")
+# Calculating the average of s2q5 for each region and district
+community_summary <- community %>%
+  select(region, district, s2q5) %>%
+  group_by(region, district) %>%
+  summarise(motorable_road_avg = mean(s2q5, na.rm = TRUE))
+# Merging the dataframes
+com_acre <- merge(final_aggregated_data, community_summary, by = c("region", "district"), all = TRUE)
+
+# Finding the water expense. 
+exp2 <- import("raw_data/aggregates/exp2.dta")
+exp2$total <- exp2$watb1+exp2$watb2
+exp2 <- subset(exp2, total != 0)
+
+water_expense_total <- exp2 %>%
+  group_by(nh, clust) %>%
+  summarise(
+    water_expense = sum(total)
+  ) %>%
+  ungroup()
+
+final_water_expense <-merge(final_aggregated_data, water_expense_total, by = c("nh", "clust"), all = TRUE)
+final_water_expense <- final_water_expense %>% 
+  filter(!is.na(water_expense))%>%
+  filter(!is.na(profit_per_acre))
+
+summary(final_water_expense)
+regression <- lm(formula = profit_per_acre ~ water_expense,
+                 data = final_water_expense)
+summary(regression)
+
+# Scatter plot of water_expense vs. profit_per_acre
+# Define the limits for the x and y axes based on the quantiles
+x_limits <- quantile(final_water_expense$water_expense, probs = c(0.05, 0.95), na.rm = TRUE)
+y_limits <- quantile(final_water_expense$profit_per_acre, probs = c(0.05, 0.95), na.rm = TRUE)
+
+# Create the scatter plot with limits to exclude extreme outliers
+ggplot(final_water_expense, aes(x = water_expense, y = profit_per_acre)) +
+  geom_point(alpha = 0.6) +
+  labs(
+    title = "Scatter Plot of Water Expense vs. Profit per Acre",
+    x = "Water Expense",
+    y = "Profit per Acre"
+  ) +
+  theme_minimal() +
+  scale_x_continuous(limits = x_limits) +
+  scale_y_continuous(limits = y_limits) +
+  geom_smooth(method = "lm", se = FALSE, color = "blue")
+
+# Household Education
+sec2a <- import("raw_data/sec2a.dta")
+
+# Created HouseholdEducation Dataframe
+HouseholdEducation <- sec2a %>%
+  select(nh, clust:s2aq4, s2aq17) %>%
+  filter(s2aq2 != "96") %>%
+  rename(
+    'Attended School' = s2aq1,
+    'Highest School Completed' = s2aq2,
+    'Highest Qualification' = s2aq3,
+    'Attending School or College' = s2aq4,
+    'Left School' = s2aq17
+    )
+
+# Mapping numbers to words based on the key
+EducationLevel <- HouseholdEducation %>%
+  mutate(education_level = case_when(
+    s2aq2 == 1 ~ "None",
+    s2aq2 == 2 ~ "Kindergarten",
+    s2aq2 == 3 ~ "Primary",
+    s2aq2 == 4 ~ "Middle",
+    s2aq2 == 5 ~ "JSS",
+    s2aq2 == 6 ~ "SSS",
+    s2aq2 == 7 ~ "Voc/Commercial",
+    s2aq2 == 8 ~ "Secondary (o Level)",
+    s2aq2 == 9 ~ "Sixth Form",
+    s2aq2 == 10 ~ "Teacher Training",
+    s2aq2 == 11 ~ "Technical",
+    s2aq2 == 12 ~ "Post Secondary T/T",
+    s2aq2 == 13 ~ "Nursing",
+    s2aq2 == 14 ~ "P/Sec Nursing",
+    s2aq2 == 15 ~ "Polytechnic",
+    s2aq2 == 16 ~ "University",
+    s2aq2 == 17 ~ "Koranic stage",
+    s2aq2 == 96 ~ "Other",
+    TRUE ~ "Unknown"  # Add a default for unexpected values
+  ))
+
+# Merge the data frames
+Education_merged_data <- merge(final_aggregated_data, EducationLevel, by = c("nh", "clust"), all = TRUE)
+
+# Select only the desired columns
+selected_data <- Education_merged_data %>%
+  select(nh, clust, education_level, profit_per_acre)
+
+# Selecting the desired columns
+final_selected_data <- Education_merged_data %>%
+  select(nh, clust, education_level, profit_per_acre)
+# View the first few rows of the final selected data
+head(final_selected_data)
+
+# Linear regression model
+education_regression <- lm(profit_per_acre ~ education_level, data = final_selected_data)
+
+# Display the summary of the regression model
+summary(education_regression)
+
+
+ggplot(final_selected_data, aes(x = education_level, y = profit_per_acre)) +
+  geom_boxplot() +
+  labs(title = "Profit per Acre by Education Level",
+       x = "Education Level",
+       y = "Profit per Acre") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # This rotates the x-axis labels for better readability
+
+# Bar plot emphasizing Education Level
+ggplot(final_selected_data, aes(x = education_level, y = profit_per_acre, fill = education_level)) +
+  geom_bar(stat = "summary", fun = "mean", position = "dodge", color = "black") +
+  labs(title = "Profit per Acre by Education Level",
+       x = "Education Level",
+       y = "Mean Profit per Acre") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_fill_brewer(palette = "Set3")  # Use a color palette for better visibility
+
+#create residuals histogram
+hist(regression$residuals, freq = FALSE)
+#add normal curve
+curve(dnorm, add = TRUE)
