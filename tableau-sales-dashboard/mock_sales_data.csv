@@ -1,0 +1,201 @@
+Order ID,Region,Category,Month,Sales,Quantity
+ORD1000,East,Office Supplies,January,1767.2,3
+ORD1001,West,Office Supplies,May,1496.63,9
+ORD1002,North,Electronics,March,1626.61,7
+ORD1003,East,Electronics,December,635.87,7
+ORD1004,East,Furniture,January,437.14,6
+ORD1005,West,Electronics,April,1526.17,8
+ORD1006,North,Office Supplies,May,1632.99,4
+ORD1007,North,Office Supplies,July,1981.96,8
+ORD1008,East,Electronics,January,883.97,4
+ORD1009,South,Office Supplies,March,806.83,8
+ORD1010,East,Office Supplies,February,1575.18,9
+ORD1011,East,Electronics,September,747.53,3
+ORD1012,East,Electronics,October,1868.44,3
+ORD1013,East,Office Supplies,June,1730.98,2
+ORD1014,West,Office Supplies,October,915.09,3
+ORD1015,North,Office Supplies,March,1526.66,3
+ORD1016,West,Furniture,August,1533.63,5
+ORD1017,West,Furniture,August,295.94,5
+ORD1018,West,Furniture,February,1814.85,2
+ORD1019,East,Electronics,June,1059.98,6
+ORD1020,South,Furniture,July,1670.27,5
+ORD1021,North,Electronics,February,708.09,6
+ORD1022,South,Electronics,November,1801.49,1
+ORD1023,West,Furniture,October,839.48,5
+ORD1024,West,Furniture,February,120.59,9
+ORD1025,South,Furniture,October,1820.23,2
+ORD1026,South,Office Supplies,January,273.44,1
+ORD1027,South,Furniture,August,706.7,9
+ORD1028,West,Office Supplies,January,1905.12,9
+ORD1029,West,Electronics,September,1906.15,9
+ORD1030,North,Office Supplies,November,1189.53,6
+ORD1031,North,Furniture,June,1300.49,8
+ORD1032,West,Electronics,July,952.05,1
+ORD1033,South,Electronics,October,657.1,4
+ORD1034,South,Electronics,July,724.46,1
+ORD1035,North,Office Supplies,October,1377.79,8
+ORD1036,West,Furniture,March,1529.51,1
+ORD1037,North,Electronics,February,1604.0,3
+ORD1038,North,Electronics,September,1600.27,4
+ORD1039,East,Electronics,August,273.29,8
+ORD1040,East,Office Supplies,December,1039.4,6
+ORD1041,East,Office Supplies,October,209.36,7
+ORD1042,South,Furniture,July,1144.1,8
+ORD1043,West,Office Supplies,September,938.91,2
+ORD1044,West,Electronics,April,1786.64,8
+ORD1045,West,Furniture,April,766.74,3
+ORD1046,West,Electronics,January,322.43,7
+ORD1047,East,Electronics,August,371.68,3
+ORD1048,South,Office Supplies,December,1546.87,7
+ORD1049,South,Furniture,March,1274.61,2
+ORD1050,East,Office Supplies,July,292.13,6
+ORD1051,South,Office Supplies,December,259.8,3
+ORD1052,East,Furniture,February,1431.84,3
+ORD1053,West,Electronics,February,238.25,9
+ORD1054,East,Electronics,July,1661.53,7
+ORD1055,West,Furniture,June,1441.86,5
+ORD1056,West,Electronics,March,254.56,7
+ORD1057,North,Furniture,September,261.19,9
+ORD1058,East,Furniture,October,1974.62,1
+ORD1059,North,Office Supplies,June,811.11,7
+ORD1060,East,Furniture,October,804.22,6
+ORD1061,East,Office Supplies,October,1644.32,9
+ORD1062,North,Electronics,June,1899.77,1
+ORD1063,North,Electronics,January,1973.4,4
+ORD1064,East,Electronics,April,1531.42,9
+ORD1065,South,Electronics,October,814.89,4
+ORD1066,West,Office Supplies,June,258.65,3
+ORD1067,North,Electronics,June,1576.58,9
+ORD1068,West,Furniture,November,1160.97,2
+ORD1069,South,Furniture,December,906.02,4
+ORD1070,South,Furniture,May,1822.07,6
+ORD1071,South,Office Supplies,January,311.28,2
+ORD1072,North,Electronics,August,1035.99,8
+ORD1073,South,Electronics,May,121.57,8
+ORD1074,North,Electronics,December,990.46,1
+ORD1075,South,Office Supplies,December,206.98,3
+ORD1076,West,Furniture,December,325.75,9
+ORD1077,West,Furniture,May,323.3,5
+ORD1078,East,Electronics,July,1333.5,6
+ORD1079,West,Furniture,April,1517.49,4
+ORD1080,East,Furniture,June,1208.4,2
+ORD1081,West,Office Supplies,April,1928.13,8
+ORD1082,North,Office Supplies,March,812.25,6
+ORD1083,West,Office Supplies,July,642.85,5
+ORD1084,East,Office Supplies,August,1750.34,9
+ORD1085,East,Electronics,April,524.83,1
+ORD1086,South,Office Supplies,February,1930.12,5
+ORD1087,North,Furniture,December,123.09,6
+ORD1088,West,Electronics,October,1942.77,5
+ORD1089,South,Furniture,March,182.0,6
+ORD1090,West,Furniture,January,1793.17,6
+ORD1091,West,Furniture,August,1102.63,7
+ORD1092,South,Office Supplies,March,1986.63,4
+ORD1093,South,Office Supplies,December,240.21,8
+ORD1094,South,Electronics,October,1152.32,7
+ORD1095,South,Electronics,July,1941.67,9
+ORD1096,South,Office Supplies,October,1093.89,7
+ORD1097,West,Furniture,May,1295.86,3
+ORD1098,South,Electronics,October,1421.92,3
+ORD1099,North,Office Supplies,May,963.63,8
+ORD1100,East,Office Supplies,July,1292.36,5
+ORD1101,South,Office Supplies,September,1210.2,4
+ORD1102,South,Furniture,December,1812.2,8
+ORD1103,West,Office Supplies,May,186.35,6
+ORD1104,South,Office Supplies,January,633.83,2
+ORD1105,South,Office Supplies,October,1905.78,4
+ORD1106,South,Office Supplies,October,1791.5,4
+ORD1107,West,Electronics,January,965.75,6
+ORD1108,South,Electronics,February,1278.25,6
+ORD1109,East,Office Supplies,June,627.02,1
+ORD1110,West,Furniture,September,457.43,8
+ORD1111,East,Electronics,August,981.03,6
+ORD1112,West,Office Supplies,May,771.37,3
+ORD1113,South,Electronics,January,1208.95,9
+ORD1114,East,Electronics,July,247.7,2
+ORD1115,West,Furniture,May,1951.35,8
+ORD1116,North,Office Supplies,June,1973.8,3
+ORD1117,South,Office Supplies,July,1426.51,5
+ORD1118,West,Furniture,March,1118.58,6
+ORD1119,North,Furniture,December,688.1,6
+ORD1120,West,Office Supplies,October,1646.21,4
+ORD1121,North,Office Supplies,March,1400.99,3
+ORD1122,South,Furniture,May,408.97,4
+ORD1123,East,Electronics,June,1830.76,1
+ORD1124,North,Electronics,September,1662.82,4
+ORD1125,West,Furniture,December,1904.62,1
+ORD1126,South,Electronics,May,1478.87,1
+ORD1127,North,Furniture,January,1265.49,6
+ORD1128,West,Electronics,April,894.66,5
+ORD1129,West,Electronics,May,1872.18,4
+ORD1130,West,Office Supplies,December,1745.52,3
+ORD1131,North,Office Supplies,October,185.92,1
+ORD1132,North,Electronics,October,150.1,6
+ORD1133,North,Electronics,May,815.28,2
+ORD1134,East,Office Supplies,July,1640.05,8
+ORD1135,North,Office Supplies,April,1975.82,5
+ORD1136,North,Office Supplies,January,385.79,7
+ORD1137,North,Furniture,May,1228.85,2
+ORD1138,East,Electronics,July,823.69,8
+ORD1139,North,Office Supplies,October,1942.84,2
+ORD1140,West,Electronics,October,1700.03,4
+ORD1141,North,Furniture,June,1692.82,1
+ORD1142,West,Furniture,May,990.52,5
+ORD1143,West,Office Supplies,April,888.16,9
+ORD1144,West,Furniture,February,619.47,1
+ORD1145,East,Electronics,April,207.11,9
+ORD1146,East,Office Supplies,October,1742.97,8
+ORD1147,East,Electronics,October,1644.51,6
+ORD1148,North,Electronics,March,1999.46,7
+ORD1149,West,Furniture,October,1993.61,3
+ORD1150,East,Furniture,January,1155.32,1
+ORD1151,East,Furniture,August,1561.08,5
+ORD1152,North,Furniture,May,1895.05,2
+ORD1153,East,Furniture,April,1714.33,5
+ORD1154,North,Office Supplies,August,569.96,8
+ORD1155,South,Electronics,July,956.03,9
+ORD1156,East,Electronics,February,345.4,2
+ORD1157,South,Electronics,January,1912.7,3
+ORD1158,North,Electronics,December,1251.73,3
+ORD1159,West,Furniture,November,534.42,1
+ORD1160,East,Electronics,April,1376.23,8
+ORD1161,North,Office Supplies,August,1274.44,6
+ORD1162,West,Office Supplies,December,780.51,8
+ORD1163,West,Electronics,February,315.76,9
+ORD1164,South,Electronics,March,1375.99,5
+ORD1165,North,Office Supplies,December,1088.58,3
+ORD1166,West,Office Supplies,January,1567.4,5
+ORD1167,East,Furniture,January,1088.31,5
+ORD1168,East,Office Supplies,March,1719.14,5
+ORD1169,South,Furniture,November,1148.62,3
+ORD1170,West,Furniture,May,1165.78,4
+ORD1171,North,Furniture,December,1765.64,9
+ORD1172,East,Furniture,March,866.62,9
+ORD1173,West,Furniture,January,354.63,2
+ORD1174,West,Electronics,January,154.69,8
+ORD1175,South,Office Supplies,August,1534.76,8
+ORD1176,East,Furniture,October,1278.59,7
+ORD1177,East,Office Supplies,November,1437.75,8
+ORD1178,North,Office Supplies,December,504.63,3
+ORD1179,East,Furniture,December,359.11,6
+ORD1180,North,Electronics,February,127.63,1
+ORD1181,East,Furniture,March,766.12,7
+ORD1182,South,Electronics,February,1220.84,1
+ORD1183,East,Office Supplies,March,845.26,9
+ORD1184,North,Electronics,July,931.2,1
+ORD1185,North,Electronics,January,1817.9,1
+ORD1186,South,Electronics,October,761.69,7
+ORD1187,East,Office Supplies,August,1076.58,2
+ORD1188,East,Office Supplies,October,1588.94,5
+ORD1189,South,Electronics,October,853.43,8
+ORD1190,East,Electronics,October,1281.96,8
+ORD1191,East,Furniture,February,1738.49,3
+ORD1192,North,Electronics,March,1904.09,7
+ORD1193,East,Furniture,September,379.44,3
+ORD1194,East,Electronics,July,1860.52,6
+ORD1195,South,Furniture,April,1035.02,6
+ORD1196,South,Office Supplies,October,590.66,3
+ORD1197,West,Electronics,May,972.36,7
+ORD1198,North,Electronics,February,1962.06,3
+ORD1199,East,Electronics,November,1035.97,8
