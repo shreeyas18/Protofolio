@@ -26,7 +26,7 @@ Projects focused on forecasting, strategy, and stakeholder-centered decision-mak
 - 🚖 [Uber Stakeholder Strategy Analysis](./uber-stakeholder-strategy)  
 - 🍏 [Apple ML Workflow Automation – Airflow Case Study](./apple-airflow-case-study)  
 - 🤖 [SuckyCorps Product Strategy Analysis](./suckycorps-product-strategy)  
-- 📈 [Excel Sales Dashboard (KPI Tracking)](./excel-sales-dashboard)
+- 📈 [Tableau Sales Dashboard (KPI Tracking)](./tableau-sales-dashboard)
 
 ---
 
