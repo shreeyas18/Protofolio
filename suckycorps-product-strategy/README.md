@@ -25,7 +25,7 @@ SuckyCorps needed to make strategic decisions about which robot vacuum models to
 ---
 
 📎 **Files in this folder:**  
-- SuckyCorps Product Analysis [(PDF)]()
+- SuckyCorps Product Analysis [(PDF)](https://github.com/shreeyas18/Protofolio/blob/main/suckycorps-product-strategy/SuckyCorps%20Product%20Strategy.pdf)
 - All the Python Script needed to test the results
 
 ---
