@@ -15,12 +15,13 @@ How can sales managers and analysts quickly identify which regions and product c
 
 ---
 
-## 📈 Results & Highlights
-- **KPI Cards:** Total Sales, Total Quantity, and Average Order Value  
-- **Bar Chart:** Sales by Region with descending sort and region-based coloring  
-- **Line Chart:** Monthly sales trend across all regions  
-- **Stacked Bar Chart:** Sales by Category across Regions  
-- **Filters:** Region, Category, Month – for user interaction
+## 📈 Results
+- 🚀 Total Sales tracked across 12 months and 4 regions with dynamic KPI cards
+- 📊 North region showed the highest sales volume in the dataset, followed by South and West
+- 🛒 Office Supplies emerged as the best-selling category in multiple regions
+- 📈 Monthly trend line identified peak sales periods in March and October
+- 🎯 Interactive filters enabled users to analyze performance by region, category, and month
+- 📦 Provided clear visual breakdowns to support inventory planning and regional sales strategy
 
 ---
 
