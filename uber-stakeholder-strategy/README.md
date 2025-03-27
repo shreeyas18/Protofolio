@@ -24,8 +24,8 @@ Uber has faced ongoing conflicts with key stakeholders—especially around gig w
 ---
 
 📎 **Files in this folder:**  
-- Uber Technologies Business Problem (PDF)  
-- Stakeholder map (embedded in paper)
+- Uber Technologies Business Problem [(PDF)](https://github.com/shreeyas18/Protofolio/blob/main/uber-stakeholder-strategy/Uber%20Technologies%20Business%20Problem%20Analysis.pdf) 
+- Stakeholder map (embedded in paper above)
 
 ---
 
