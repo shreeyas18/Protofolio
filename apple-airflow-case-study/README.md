@@ -25,7 +25,7 @@ Apple needed a way to support its rapidly growing number of ML experiments and p
 ---
 
 📎 **Files in this folder:**  
-- Final case study write-up [(PDF)]()
+- Final case study write-up [(PDF)](https://github.com/shreeyas18/Protofolio/blob/main/apple-airflow-case-study/Apple%20Airflow%20in%20Action.pdf)
 
 ---
 
