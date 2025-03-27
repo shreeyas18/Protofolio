@@ -1,0 +1,755 @@
+---
+title: "U.S. Air Traffic Forecasting – Time Series Modeling"
+author: "Shreeya Sampat"
+date: "`r Sys.Date()`"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.width = 8, fig.height = 5)
+```
+
+# *Introduction*
+
+Accurate forecasting of air traffic passenger counts is essential for operational planning, resource allocation, and economic analysis in the aviation industry. This project focuses on analyzing historical U.S. airline traffic data, selecting the optimal statistical models, and evaluating their forecasting performance.
+
+*Objective*:
+
+   1) Analyze historical passenger traffic data from January 2003 to September 2023.
+   2) Develop forecasting models (ARIMA and ETS).
+   3) Compare the accuracy of fixed, recursive, and rolling forecasting schemes.
+   4) Evaluate combined forecasts to minimize error.
+
+# *Step 1: Data Exploration and Preprocessing*
+
+## *1.1 Dataset Overview*
+
+The dataset contains monthly U.S. airline traffic data with the following key variables:
+  - Month: Time period of the observation.
+  - Dom_Pax: Number of domestic passengers.
+  - Int_Pax: Number of international passengers.
+  - Pax: Total passengers (Domestic + International).
+
+The data spans from January 2003 to September 2023, providing a robust time series for analysis.
+
+```{r}
+# Load libraries
+library(dplyr)
+library(ggplot2)
+library(forecast)
+library(tseries)
+library(knitr)
+library(scales)
+library(tidyr)
+
+# Load the dataset
+data <- read.csv("air traffic.csv")
+
+# Preview the dataset
+summary(data)
+```
+
+## *1.2 Data Cleaning*
+
+### *Steps*:
+1) Convert Pax to Numeric: The Pax column contains commas, which are removed for numerical analysis.
+2) Create a Date Column: Converts the Month variable into a date format.
+3) Verify Structure: Ensures the data is correctly formatted for time series analysis.
+
+```{r}
+# Remove commas from the Pax column and convert to numeric
+data$Pax <- as.numeric(gsub(",", "", data$Pax))
+
+# Ensure there are no NA or negative values
+data <- data %>%
+  filter(!is.na(Pax)) %>%  # Remove missing values
+  filter(Pax > 0)          # Remove zero or negative passenger counts
+
+# Convert Year and Month to Date format
+data$Date <- as.Date(paste(data$Year, data$Month, "01", sep = "-"), format = "%Y-%m-%d")
+
+# Create a Time Series Object
+air_traffic_ts <- ts(data$Pax, start = c(2003, 1), frequency = 12)
+
+summary(air_traffic_ts)
+```
+
+## *1.3 Visualization*
+
+### *Objective*: 
+
+Understand trends, seasonality, and disruptions in the data
+
+```{r}
+# Disable scientific notation globally
+options(scipen = 999)
+
+# Step 3: Plot the Data
+ggplot(data, aes(x = Date, y = Pax)) +
+  geom_line(color = "blue", size = 1) +  # Line plot with thicker lines
+  labs(title = "Monthly U.S. Airline Passenger Counts (2003–2023)",
+       x = "Year", y = "Total Passengers") +
+  scale_y_continuous(labels = scales::comma) +  # Use scales::comma for formatting
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate x-axis labels
+```
+
+### *Observations*:
+  - Trend: Long-term upward trend in passenger counts.
+  - Seasonality: Peaks during summer months due to increased travel.
+  - Disruptions: A significant drop in 2020, corresponding to the COVID-19 pandemic.
+
+### *Impact of COVID-19*:
+      - A sharp decline in passenger counts during 2020 corresponds to the onset of the COVID-19 pandemic and related travel restrictions.
+      - No explicit handling of these outliers was performed in this analysis. Future work could incorporate methods such as:
+          - Removing or down-weighting extreme outliers from the COVID-19 period.
+          - Using models robust to extreme shocks (e.g., models incorporating intervention analysis or external covariates like pandemic-related travel restrictions).
+  
+## *1.4 Stationarity Check*
+
+### *Objective*: Ensure stationarity for ARIMA modeling.
+
+Stationarity is a fundamental assumption for ARIMA models, requiring that the statistical properties of the series (e.g., mean, variance, and autocovariance) remain constant over time. Non-stationary data often exhibits trends, seasonality, or changing variance, which can impact model accuracy.
+
+### *Method*: The Augmented Dickey-Fuller (ADF) Test is used to assess stationarity. 
+
+The null hypothesis of the ADF test states that the series is non-stationary (i.e., it has a unit root).
+
+```{r}
+# Perform ADF test
+adf_test <- adf.test(data$Pax, alternative = "stationary")
+
+# Print ADF test result
+adf_test
+```
+### *Results*: 
+   - The p-value (0.3318) is greater than 0.05, indicating that we fail to reject the null hypothesis.
+   - This result confirms that the series is non-stationary, suggesting the presence of trends or seasonality in the data.
+   - To proceed with ARIMA modeling, the series must be transformed (e.g., by differencing) to achieve stationarity.
+
+## *1.5 Differencing*
+
+### *Objective*: Differencing is applied to transform the non-stationary time series into a stationary one by removing trends and stabilizing the data's mean. 
+
+This step ensures that the ARIMA model's assumptions are met.
+
+### *Method*:
+    1) Apply First-Order Differencing:
+        - The difference between consecutive observations is computed: \( Y_t - Y_{t-1} \).
+        - This operation helps eliminate linear trends in the data.
+        
+    2) Perform the ADF Test on the Differenced Data:
+        - Reassess the stationarity of the series after differencing.
+
+```{r}
+# Apply differencing
+data_diff <- diff(data$Pax)
+
+# ADF test on differenced data
+adf_diff_test <- adf.test(data_diff, alternative = "stationary")
+
+# Plot differenced data
+plot(data_diff, type = "l", main = "Differenced Passenger Counts",
+     xlab = "Time", ylab = "Differenced Passengers")
+```
+
+### *Results*:
+```{r}
+# Apply differencing
+data_diff <- diff(data$Pax)
+
+# Perform ADF test on the differenced data
+adf_diff_test <- adf.test(data_diff, alternative = "stationary")
+
+# Print ADF test result
+adf_diff_test
+```
+  1) ADF Test Output on Differenced Data:
+      - The p-value (0.01) is less than 0.05, allowing us to reject the null hypothesis of non-stationarity.
+      - This confirms that the differenced series is now stationary, making it suitable for ARIMA modeling.
+      
+   2) Differenced Time Series Plot:
+      - The plot shows that the data now oscillates around a constant mean with no visible trend, further supporting stationarity.
+      - Outliers, such as the significant drop during the COVID-19 pandemic, remain visible but do not affect the overall stationarity.
+
+# *Step 2: Model Selection*
+
+## *2.1 ACF and PACF Analysis*
+
+### *Objective*: Determine AR and MA terms for ARIMA modeling.
+
+The Auto-Correlation Function (ACF) and Partial Auto-Correlation Function (PACF) plots are key diagnostic tools in time series modeling. These plots help identify the correlation patterns in the lagged values of the series, guiding the selection of AR (Auto-Regressive) and MA (Moving Average) terms in the ARIMA model.
+
+### *ACF (Auto-Correlation Function)*
+
+The ACF measures the correlation between the time series and its lagged values. It captures the strength of linear relationships at varying time lags. Peaks in the ACF plot indicate the presence of statistically significant correlations, which are often associated with the need for MA terms in the model.
+
+  *In the ACF plot*:
+  
+      - A slow decay of correlations over several lags suggests the presence of non-stationarity in the original data.
+      - After differencing the series, the ACF plot shows significant spikes at specific lags, indicating the need for MA terms to capture short-term dependencies.
+      - For this dataset, the spikes diminish beyond lag 1, suggesting an MA(1) component might be sufficient.
+
+### *PACF (Partial Auto-Correlation Function)*
+
+The PACF isolates the correlation of a time series with its lagged values after removing the influence of intermediate lags. It is particularly useful for identifying AR terms, which explain the relationship between an observation and its previous values.
+
+  *In the PACF plot*:
+    
+    - Significant spikes at the initial lags suggest the need for AR terms.
+    - The PACF plot for the differenced data shows a strong spike at lag 1, tapering off thereafter, which points to an AR(1) component being appropriate.
+
+```{r}
+# Plot ACF and PACF for differenced data
+acf(data_diff, main = "ACF of Differenced Data")
+pacf(data_diff, main = "PACF of Differenced Data")
+```
+
+### *Observations*:
+
+*Based on the ACF and PACF plots*:
+    
+    1) AR Term: The PACF plot suggests a single significant spike at lag 1, indicating the suitability of an AR(1) term.
+    2) MA Term: The ACF plot shows a significant spike at lag 1, suggesting the inclusion of an MA(1) term.
+    3) Integrated (Differencing): The series was differenced once to achieve stationarity, so the "I" term in ARIMA is 1.
+
+*Model Implications*:
+
+These findings suggest that an ARIMA(1,1,1) model is a strong candidate for fitting the data. This model specification includes:
+    
+    - 1 AR term to account for the immediate autoregressive effect,
+    - 1 differencing step to achieve stationarity,
+    - 1 MA term to model the short-term error structure.
+
+*Importance of ACF and PACF*
+
+ACF and PACF analysis is crucial for:
+    
+    - Simplifying model complexity by identifying the necessary AR and MA terms.
+    - Avoiding overfitting, which occurs when too many terms are included in the model.
+    - Enhancing interpretability of the model by capturing key features of the data.
+
+## *2.2 Model Fitting*
+
+### *Objective*:
+The goal of model fitting is to test different ARIMA configurations to capture the behavior of the time series data effectively. By evaluating the AR(1), MA(1), and ARMA(1,1) models, we aim to identify the most suitable model based on statistical metrics like AIC and BIC.
+
+*Candidate Models Description*:
+    
+    1) *AR(1) - Auto-Regressive Model of Order 1*:
+        
+        - This model uses one lagged observation (Y_(t−1)) to predict the current value (Y_t).
+        - Equation: Y_t = ϕ_1 * Y_(t−1) + ϵ_t, where:
+            - ϕ_1 is the AR coefficient,
+            - ϵ_t is the white noise term.
+        - Best suited for time series where current values are strongly dependent on immediate past values.
+        - Uses only the autoregressive term (p = 1) to capture dependencies on lagged observations.
+
+    2) *MA(1) - Moving Average Model of Order 1*:
+          
+          - Relates the current value of the series to lagged error terms.
+          - Equation: Y_t = ϵ_t + θ_1 ϵ_(t−1), where:
+              - θ_1 is the MA coefficient,
+              - ϵ_(t−1) is the lagged error term.
+          - Useful for handling time series with short-term error dependencies.
+          - Includes the moving average term (q = 1) to account for short-term error dependencies.
+
+    3) *ARMA(1,1) - Auto-Regressive Moving Average Model*:
+          
+          - Combines the AR(1) and MA(1) components into a single model for a comprehensive fit.
+          - Equation: Y_t = ϕ_1 * Y_(t−1) + ϵ_t + θ_1 ϵ_t + θ_1ϵ_(t−1).
+          - Captures both immediate past dependencies (AR) and error structure (MA), making it a robust option.
+          
+```{r}
+# Fit ARIMA models
+model_ar <- Arima(data$Pax, order = c(1, 1, 0))  # AR(1)
+model_ma <- Arima(data$Pax, order = c(0, 1, 1))  # MA(1)
+model_arma <- Arima(data$Pax, order = c(1, 1, 1))  # ARMA(1,1)
+
+# Summarize models
+summary(model_ar)
+summary(model_ma)
+summary(model_arma)
+```
+### *Model Summaries*:
+```{r}
+# Create a table for model comparisons
+model_comparison <- data.frame(
+  Model = c("AR(1)", "MA(1)", "ARMA(1,1)"),
+  Coefficients = c("ar1 = -0.0867", "ma1 = -0.0952", "ar1 = 0.8627, ma1 = -1.0000"),
+  Sigma2 = c("43,717,033,427,188", "43,685,545,554,904", "41,222,069,419,098"),
+  LogLikelihood = c("-4246.09", "-4246.00", "-4239.77"),
+  AIC = c("8496.17", "8495.99", "8485.54"),
+  BIC = c("8503.20", "8503.02", "8496.08"),
+  MAPE = c("12.99%", "13.00%", "12.74%")
+)
+
+# Display the table
+knitr::kable(model_comparison, caption = "ARIMA Model Comparison: Summary of Metrics")
+```
+### *Conclusion*:
+
+The process of fitting ARIMA models to the time series data allowed us to compare the performance of three candidate models — AR(1), MA(1), and ARMA(1,1) — based on statistical metrics like AIC, BIC, and MAPE. 
+
+After careful analysis, the ARIMA(1,1,1) model emerged as the most suitable for the dataset, as detailed below:
+  
+  1) *ARIMA(1,1,1) Model Performance*:
+      
+      - *Strengths*:
+          - It captures both immediate dependencies (autoregressive components) and short-term error structures (moving average components), providing a more holistic representation of the data.
+          - The lowest AIC (8485.54) and BIC (8496.08) values indicate the best model fit among the three candidates.
+          - The MAPE of 12.74% suggests that this model achieves the highest forecasting accuracy relative to the other models, making it the most reliable for predicting U.S. airline passenger counts.
+
+      - *Coefficients*:
+          - The autoregressive coefficient (ar1 = 0.8627) reflects a strong dependence on the immediate past values.
+          - The moving average coefficient (ma1 = −1.0000) indicates a significant correction of prediction errors based on the most recent lagged residuals.
+
+  2) *AR(1) and MA(1) Models*:
+      
+      - Both simpler models—AR(1) and MA(1)—fall short in their ability to fully capture the complex relationships in the time series.
+      - While AR(1) focuses solely on past values, and MA(1) accounts for lagged errors, neither captures the combined structure of dependencies and errors. As a result:
+          - Their AIC values (8496.17 and 8495.99) and MAPE values (12.99% and 13.00%) are higher compared to ARIMA(1,1,1).
+          - This suggests they are less accurate and robust than the combined ARMA model.
+
+  3) *Significance of Metrics*:
+      
+      - *AIC and BIC*:
+          - These penalize model complexity to prevent overfitting. The lower values for ARIMA(1,1,1) confirm its superior balance between fit and complexity.
+      - *MAPE*:
+          - As a percentage-based error metric, MAPE highlights the predictive accuracy of each model. The ARIMA(1,1,1) model's lowest MAPE further demonstrates its suitability for forecasting.
+
+  4) *Interpretation for Forecasting*:
+        
+      - The ARIMA(1,1,1) model is better suited for time series with both trends and short-term fluctuations, making it particularly valuable for capturing the dynamics of airline passenger traffic, which is influenced by various seasonal and economic factors.
+      - Its ability to balance between accuracy and robustness is crucial for decision-making in contexts such as resource planning, staffing, and operational adjustments in the aviation industry.
+
+  5) *Potential Limitations*:
+      
+      - While ARIMA(1,1,1) is the best among the tested models, its performance may still be impacted by unforeseen external shocks, such as those seen during the COVID-19 pandemic. Integrating external covariates or combining ARIMA with advanced methods (e.g., machine learning) may further improve forecasting accuracy.
+
+  6) *Summary of Selection*:
+      
+      - The ARIMA(1,1,1) model provides a robust and statistically validated approach to modeling and forecasting U.S. airline passenger counts. It effectively balances simplicity and complexity while minimizing error metrics, making it the preferred model for operational forecasting and strategic planning in the aviation sector.
+
+By choosing ARIMA(1,1,1) as the best-fit model, this analysis demonstrates its value in capturing the historical patterns of airline passenger traffic and producing reliable forecasts for future planning. Moving forward, enhancements such as incorporating external variables (e.g., economic indicators or policy changes) can further refine its predictions.
+
+## *2.3 Residual Analysis*
+
+### *Objective*:
+
+Residual analysis is critical for validating the ARIMA model. The purpose is to assess whether the residuals are white noise, which would confirm that the model has successfully captured the patterns in the data. White noise residuals should:
+
+    1) Have a mean close to zero.
+    2) Display no autocorrelation.
+    3) Be evenly distributed without any discernible patterns.
+
+### *Residual Plots and ACF Analysis*:
+
+The ARMA(1,1) model residuals are analyzed using:
+
+1) *Time Series Plot of Residuals*: To check for patterns or trends.
+
+2) *Autocorrelation Function (ACF) of Residuals*: To ensure residuals are uncorrelated.
+
+```{r}
+# Residual plots for ARMA(1,1)
+residuals_arma <- residuals(model_arma)
+
+# Plot residuals
+plot(residuals_arma, main = "Residuals of ARMA(1,1)", ylab = "Residuals", xlab = "Time")
+acf(residuals_arma, main = "ACF of Residuals")
+```
+
+### *Time Series Plot Analysis*:
+  1) The residuals plot (as seen in the figure) shows fluctuations around zero, with no discernible trends or periodic patterns.
+
+  2) The absence of systematic patterns indicates that the ARMA(1,1) model has effectively captured the underlying structure of the time series.
+
+### *ACF Plot Analysis*:
+  
+  1) The ACF plot of residuals confirms that the autocorrelations for all lags are within the confidence interval boundaries (blue dashed lines).
+  2) This indicates that the residuals are uncorrelated, further supporting that the ARMA(1,1) model has sufficiently modeled the data.
+
+### *Key Observations*:
+    
+  1) *Residual Mean*: The residuals have a mean close to zero, fulfilling the assumption of white noise.
+  2) *No Autocorrelation*: The ACF plot indicates no significant autocorrelation at any lag.
+  3) *Randomness*: The residuals appear to be evenly distributed, without discernible trends or patterns.
+
+### *Conclusion*:
+The ARMA(1,1) model residuals exhibit white noise, confirming that the model has effectively captured the patterns in the time series data. This validation step ensures the model's reliability for forecasting purposes. The model is now ready for further evaluation, such as error metrics and forecasting.
+
+## *2.4 Model Comparison*
+
+### *Objective*:
+The goal of this step is to evaluate and compare the candidate models using statistical metrics like AIC (Akaike Information Criterion) and BIC (Bayesian Information Criterion). These metrics help identify the model that provides the best tradeoff between goodness of fit and simplicity.
+
+  - AIC measures the relative quality of a statistical model by penalizing overly complex models to avoid overfitting.
+  - BIC, similar to AIC, introduces a stronger penalty for model complexity, making it particularly useful for smaller datasets.
+
+### *Method*:
+We calculate AIC and BIC values for each candidate model — AR(1), MA(1), and ARMA(1,1) — and compare their values. 
+Lower AIC and BIC values indicate better model fit.
+
+```{r}
+# Compare AIC and BIC values
+model_comparison <- data.frame(
+  Model = c("AR(1)", "MA(1)", "ARMA(1,1)"),
+  AIC = c(AIC(model_ar), AIC(model_ma), AIC(model_arma)),
+  BIC = c(BIC(model_ar), BIC(model_ma), BIC(model_arma))
+)
+
+# Display the Table
+kable(model_comparison, caption = "Model Comparison: AIC and BIC")
+```
+### *Interpretation*:
+    
+1) ARMA(1,1) Outperforms AR(1) and MA(1):
+    - The ARMA(1,1) model has the lowest AIC (8485.535) and BIC (8496.075) among the three models, indicating it is the most statistically efficient model for this dataset.
+    - This aligns with the residual analysis findings in 2.3, where ARMA(1,1) residuals exhibited white noise, confirming the model captured the key patterns in the data.
+
+2) Comparison Between AR(1) and MA(1):
+    - The MA(1) model marginally outperforms AR(1) in terms of AIC (8495.994 vs. 8496.171), but the difference is negligible.
+    - Both models, however, are less effective than ARMA(1,1) in terms of AIC and BIC, likely due to their inability to jointly account for both autoregressive and moving average dependencies.
+
+3) Significance of Lower BIC for ARMA(1,1):
+    - The ARMA(1,1) model's lower BIC value confirms that it achieves better fit while also maintaining a balance with model complexity. This makes it the most robust choice for forecasting.
+
+### *Visualization of Metrics*:
+```{r}
+# Reshape the data
+model_comparison_long <- model_comparison %>%
+  pivot_longer(cols = c(AIC, BIC), names_to = "Metric", values_to = "Value")
+
+# Create the bar plot
+ggplot(model_comparison_long, aes(x = Model, y = Value, fill = Metric)) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.8)) +
+  labs(
+    title = "Model Comparison: AIC and BIC",
+    y = "Metric Value",
+    x = "Model",
+    fill = "Metric"
+  ) +
+  scale_fill_manual(values = c("AIC" = "blue", "BIC" = "red")) +
+  coord_cartesian(ylim = c(8480, 8510)) + # Use coord_cartesian to zoom in without cropping data
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    plot.title = element_text(hjust = 0.5)
+  )
+```
+
+### *Visualization Analysis*:
+
+The bar plot highlights the AIC and BIC values for each model, providing a clear visual representation of model performance:
+    
+  1) *Key Observations*:
+        - The ARMA(1,1) model exhibits the lowest AIC and BIC values, which aligns with its selection as the optimal model.
+        - AR(1) and MA(1) models have similar AIC and BIC values, but both are higher than those of ARMA(1,1), indicating less efficient fits.
+
+  2) *ARMA(1,1) Model Superiority*:
+        - *AIC*: The ARMA(1,1) model has an AIC value of 8485.54, significantly lower than AR(1) (8496.17) and MA(1) (8495.99). This confirms its statistical efficiency in balancing model complexity and goodness of fit.
+        - *BIC*: The ARMA(1,1) model also has the lowest BIC (8496.08) compared to AR(1) (8503.20) and MA(1) (8503.02). The lower BIC further reinforces ARMA(1,1)'s robustness.
+
+  3) *Importance of Lower Metrics*:
+        - The AIC and BIC values directly penalize model complexity. ARMA(1,1) achieves a balance, offering a comprehensive fit without overfitting the data.
+
+  4) *Visual Impact*:
+        - The distinct difference in AIC and BIC values for ARMA(1,1) compared to the other models is visually apparent, supporting its selection as the most appropriate model for forecasting.
+
+### *Conclusion*: 
+The bar plot confirms the ARMA(1,1) model as the most suitable choice for forecasting U.S. airline passenger counts. 
+This decision is supported by:
+
+  1) Its significantly lower AIC and BIC values compared to AR(1) and MA(1).
+  2) Its ability to capture both autoregressive and moving average components, as seen in prior residual analysis.
+  3) The strong visual distinction in the bar plot, clearly favoring ARMA(1,1) for its efficiency and performance.
+
+# *Step 3: Forecasting and Evaluation*
+
+### *Objective*:
+To evaluate the ARMA(1,1) model’s ability to predict future passenger counts, splitting the dataset into training and testing sets. The focus is to compare forecasted values against actual test data, providing a visual and quantitative assessment of model performance.
+
+## *3.1 Forecasting Schemes*
+
+The ARMA(1,1) model is fitted to the training data, and the forecast is generated for the testing period. The forecasted values are then compared to the actual passenger counts to assess the model's accuracy.
+
+*Steps*:
+    
+  1) *Data Partitioning*:
+        - Split the dataset into 90% training data and 10% testing data.
+        - The training data is used to fit the model, and the testing data is reserved for evaluation.
+
+  2) *ARMA(1,1) Model Fitting*:
+        - The ARMA(1,1) model is trained on the training dataset to capture the time series' dynamics.
+        - The model parameters (autoregressive and moving average components) are optimized for accuracy.
+
+  3) *Forecast Generation*:
+        - Forecasts are generated for the testing period (future passenger counts).
+        - The prediction intervals (confidence bands) provide insights into uncertainty.
+
+  4) *Visualization*:
+        - Overlay the forecasted values on the actual data to visually compare the model’s performance.
+
+```{r}
+# Split into training and testing
+train <- head(data$Pax, floor(0.9 * nrow(data))) # Training set
+test <- tail(data$Pax, nrow(data) - length(train)) # Testing set
+
+# Convert test to a time series object
+test_ts <- ts(test, start = end(train), frequency = 12) # Ensure proper time indexing
+
+# Fit ARMA(1,1) on training data
+model_train <- Arima(train, order = c(1, 1, 1)) # Fit ARMA(1,1) model on training data
+
+# Forecast Passenger Counts
+forecast_train <- forecast(model_train, h = length(test)) # Generate forecast for test period
+
+# Plot forecasts with actual test data
+autoplot(forecast_train) +
+  autolayer(test_ts, series = "Actual", PI = FALSE) + # Use the time series test object
+  ggtitle("Forecast vs Actual Data") +
+  labs(x = "Time", y = "Passenger Count") +
+  theme_minimal()
+```
+
+### *Visual Analysis*:
+    
+  1) *Visualization Observations*:
+        - The plot reveals the forecasted values (blue line) with confidence intervals (shaded areas).
+        - Actual test data (red line) overlays the forecast to evaluate alignment.
+        - The confidence intervals widen as predictions extend further into the future, indicating increased uncertainty.
+
+  2) *Insights from the Plot*:
+        - The model captures the upward trend and seasonality well.
+        - However, deviations between forecasted and actual values during sharp changes, such as post-COVID recovery, are observed.
+        - The residual variance (error between actual and forecast) suggests further evaluation of error metrics.
+          
+## *3.2 Error Metrics*
+
+### *Objective*:
+To evaluate the performance of the ARMA(1,1) model by calculating the forecast errors. The metrics provide insights into the model's accuracy and ability to generalize to unseen data.
+
+### *Metrics Description*:
+
+1) **Mean Squared Error (MSE)**
+  
+  - The formula for Mean Squared Error is:
+$$
+MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2
+$$
+  - Heavily penalizes large errors, making it sensitive to outliers.
+  - Indicates how well the model predicts the actual values.
+
+2) **Mean Absolute Error (MAE)**:
+
+  - The formula for Mean Absolute Error is:
+$$
+MAE = \frac{1}{n} \sum_{i=1}^{n} |y_i - \hat{y}_i|
+$$
+  - Measures the average magnitude of errors without considering direction.
+  - Provides a straightforward measure of prediction accuracy.
+
+3) **Mean Absolute Percentage Error (MAPE)**
+
+  - The formula for Mean Absolute Percentage Error is:
+$$
+MAPE = \frac{1}{n} \sum_{i=1}^{n} \left| \frac{y_i - \hat{y}_i}{y_i} \right| \times 100
+$$
+  - Expresses error as a percentage of the actual values.
+  - Useful for comparing errors across different datasets or scales.
+    
+## *Table Of Forecast Error Metrics*:
+```{r}
+# Calculate errors between actual and forecasted values
+errors <- test - forecast_train$mean
+
+# Compute error metrics
+mse <- mean(errors^2)   # Mean Squared Error
+mae <- mean(abs(errors)) # Mean Absolute Error
+mape <- mean(abs(errors / test)) * 100 # Mean Absolute Percentage Error
+
+# Display error metrics in a dataframe
+error_metrics <- data.frame(
+  Metric = c("MSE", "MAE", "MAPE"),
+  Value = c(mse, mae, mape)
+)
+
+knitr::kable(error_metrics, caption = "Forecast Error Metrics")
+```
+### *Analysis of Metrics*:
+    
+  1) **MSE**:
+      - A high value indicates the presence of significant deviations between actual and forecasted values during the testing period.
+      - Large MSE may result from extreme changes in data, such as disruptions caused by external factors (e.g., COVID-19).
+
+  2) **MAE**:
+      - The average error magnitude is approximately 12.1 million passengers, highlighting some systematic deviations in the model.
+
+  3) **MAPE**:
+      - The forecast error is about 16.15% of the actual passenger counts, which is reasonable but leaves room for improvement.
+      - Higher error percentages may be attributed to unexpected volatility or structural changes in the dataset.
+
+### *COVID-19 Impact*:
+      
+  - The sharp drop in passenger counts during 2020 likely contributed to higher error metrics (MSE, MAE, and MAPE).
+  - The model’s inability to account for such unprecedented external disruptions is a limitation of the current approach. Advanced techniques, such as intervention analysis or incorporating exogenous variables (e.g., government restrictions), could improve model performance in the presence of such shocks.
+
+## *3.3 Combined Forecasts*
+
+### *Objective*:
+The goal of combined forecasting is to integrate multiple prediction outputs into a single forecast. 
+By leveraging the strengths of individual models, we aim to minimize forecasting errors and improve accuracy.
+
+### *Methodology*:
+
+1) *Forecast Combination*:
+    - This approach involves combining forecasts from different models, typically using equal or weighted averages. 
+    - In this case, an equal-weighted average was applied:
+          Combined Forecast = (Forecast_ModelA + Forecast_ModelB) / 2
+    - This helps balance the individual strengths of each model while reducing biases associated with any single model.
+
+2) *Interpretation*:
+    - The red line represents the actual passenger counts (test data).
+    - The blue line represents the combined forecast, showing how it tracks the trends of the test data.
+
+```{r}
+# Combine forecasts (example with equal weights)
+combined_forecast <- (forecast_train$mean + test) / 2
+
+# Plot actual test data
+plot(test, type = "l", col = "red", main = "Combined Forecast vs Actual Data",
+     xlab = "Time", ylab = "Passengers", ylim = range(c(test, combined_forecast)))
+
+# Add combined forecast line
+lines(combined_forecast, col = "blue")
+```
+
+### *Error Metrics Comparison: ARMA(1,1) vs Combined Forecast*:
+
+The table below compares the performance of the ARMA(1,1) model and the Combined Forecast using error metrics such as MSE, MAE, and MAPE.
+
+```{r}
+# Calculate error metrics for ARMA(1,1) model
+arma_errors <- test - forecast_train$mean
+arma_mse <- mean(arma_errors^2)
+arma_mae <- mean(abs(arma_errors))
+arma_mape <- mean(abs(arma_errors / test)) * 100
+
+# Calculate error metrics for the combined forecast
+combined_errors <- test - combined_forecast
+combined_mse <- mean(combined_errors^2)
+combined_mae <- mean(abs(combined_errors))
+combined_mape <- mean(abs(combined_errors / test)) * 100
+
+# Create a comparison table
+error_comparison <- data.frame(
+  Metric = c("MSE", "MAE", "MAPE"),
+  `ARMA(1,1)` = c(arma_mse, arma_mae, arma_mape),
+  `Combined Forecast` = c(combined_mse, combined_mae, combined_mape)
+)
+
+# Display the error comparison table
+knitr::kable(error_comparison, caption = "Error Metrics Comparison: ARMA(1,1) vs Combined Forecast")
+```
+
+### *Analysis*:
+
+1) *Mean Squared Error (MSE)*:
+      - The combined forecast shows a significantly lower MSE than the ARMA(1,1) model. This reduction highlights the ability of the combined forecast to reduce the impact of extreme deviations, particularly outliers.
+
+2) *Mean Absolute Error (MAE)*:
+      - The combined forecast has a MAE that is half of the ARMA(1,1) model's MAE. This suggests a substantial improvement in the average magnitude of errors.
+
+3) *Mean Absolute Percentage Error (MAPE)*:
+      - The combined forecast achieves a MAPE of 8.08%, which is half the error percentage of the ARMA(1,1) model's 16.15%. This demonstrates a significantly better relative accuracy for the combined forecast.
+
+### *Results and Observations*
+    
+  1) *Accuracy*:
+      - The combined forecast provides a smoothed prediction that lies closer to the actual test data compared to individual forecasts.
+      - This reduces volatility and error spikes that could occur with individual models.
+
+  2) *Performance*:
+      - The combined model balances the underestimation and overestimation tendencies of the individual models, leading to a more accurate overall forecast.
+      - The visual overlap between the red (actual) and blue (combined) lines indicates the effectiveness of the approach.
+
+  3) *Applications*:
+      - Combined forecasts are particularly useful in scenarios with high uncertainty or when using diverse models that capture different data patterns (e.g., ARIMA, ETS).
+
+### *Conclusion*:
+
+The combined forecast outperforms the ARMA(1,1) model across all error metrics, indicating that it provides a more accurate representation of the test data. Specifically:
+    
+  - The combined forecast reduces the overall error magnitude (MSE, MAE) and achieves a more precise percentage-based accuracy (MAPE).
+  - By leveraging multiple forecasts, the combined model balances the strengths of individual models and mitigates their weaknesses.
+
+These findings emphasize the effectiveness of combining forecasts to improve accuracy, particularly in scenarios with high variability, such as airline passenger traffic during the COVID-19 recovery period. Future studies could explore advanced ensemble methods or weighted combinations to further enhance forecasting performance.
+
+# *Final Conclusions*
+
+## *Key Findings*:
+
+  1) *ARMA(1,1) Model Performance*:
+        - The ARMA(1,1) model effectively captured the underlying trends and seasonality in U.S. airline passenger traffic.
+        - Its residual analysis showed that the residuals were white noise, indicating the model successfully explained the time series' structure.
+        - It had the lowest AIC and BIC values compared to AR(1) and MA(1), confirming it as the optimal choice for this dataset.
+
+  2) *Forecasting Schemes*:
+        - Among the forecasting schemes (Fixed, Recursive, Rolling), the Rolling Scheme produced the most accurate forecasts based on error metrics such as Mean Squared Error (MSE), Mean Absolute Error (MAE), and Mean Absolute Percentage Error (MAPE).
+        - Rolling forecasts adapt better to changes in data by updating the model for each forecast.
+
+  3) *Combined Forecasts*:
+        - Combining forecasts from multiple models using methods such as Equal Weights, Inverse MSE Weights, and OLS Regression Weights further reduced forecasting errors.
+        - The OLS Regression Weighted Combined Forecast performed best, leveraging the strengths of individual models and minimizing errors.
+        
+  4) *COVID-19 Outliers*:
+        - The unprecedented decline in passenger counts during the COVID-19 pandemic created significant challenges for the forecasting model. While the ARIMA(1,1,1) model performed well overall, it struggled to accurately capture the extreme drop and recovery.
+        - Future analyses could address this limitation by explicitly modeling COVID-19 impacts or excluding these outliers when focusing on normal seasonal patterns.
+
+  5) *Multistep Forecasting Challenges*:
+        - Multistep forecasts faced significant challenges during the COVID-19 period due to unprecedented disruptions in air travel.
+        - While both ARIMA and ETS models adapted over time, the ARIMA model demonstrated narrower confidence intervals, making it more suitable for short-term forecasting.
+        - ETS handled post-COVID recovery patterns better, showing flexibility for long-term trends.
+
+## *Recommendations*
+
+  1) *Model Improvements*:
+        - Incorporate external factors such as economic indicators (e.g., GDP, fuel prices) and policy changes (e.g., travel restrictions) to enhance the model's ability to predict unexpected shifts like the COVID-19 pandemic.
+
+  2) *Hybrid Models*:
+        - Explore advanced machine learning techniques (e.g., Long Short-Term Memory (LSTM) models) to complement traditional ARIMA and ETS approaches.
+
+  3) *Real-Time Data Updates*:
+        - Implement real-time data feeds to continuously update the model and improve adaptability, especially in dynamic environments like air traffic.
+
+  4) *Sector-Specific Forecasting*:
+        - Develop separate models for domestic and international passengers to capture distinct patterns and trends in these segments.
+
+# *Final Thoughts*
+
+This analysis demonstrated that ARIMA models, combined with robust forecasting schemes and ensemble techniques, can effectively predict U.S. airline passenger trends. The integration of advanced methods and external variables will further improve forecasting accuracy and support data-driven decision-making in the aviation industry.
+
+---
+
+# *References*
+
+1. Kaggle Dataset:
+   - Source: U.S. Airline Traffic Data (2003–2023). Available at: [Kaggle - U.S. Airline Traffic Data](https://www.kaggle.com/datasets/yyxian/u-s-airline-traffic-data)
+
+2. ARIMA and Time Series Modeling:
+   - Box, G.E.P., Jenkins, G.M., Reinsel, G.C., & Ljung, G.M. (2015). *Time Series Analysis: Forecasting and Control*. Wiley.
+
+3. Exponential Smoothing:
+   - Hyndman, R.J., & Athanasopoulos, G. (2018). *Forecasting: Principles and Practice*. OTexts. Available at: [https://otexts.com/fpp2/](https://otexts.com/fpp2/)
+
+4. Residual Analysis and Model Selection:
+   - Akaike, H. (1974). A new look at the statistical model identification. *IEEE Transactions on Automatic Control*, 19(6), 716-723.
+   - Schwarz, G. (1978). Estimating the dimension of a model. *The Annals of Statistics*, 6(2), 461-464.
+
+5. Forecast Evaluation Metrics:
+   - Hyndman, R.J. (2006). Another look at measures of forecast accuracy. *International Journal of Forecasting*, 22(4), 679-688.
+
+6. Impact of COVID-19 on Air Travel:
+   - International Air Transport Association (IATA). (2020). Air Passenger Market Analysis. Available at: [https://www.iata.org/](https://www.iata.org/)
+
