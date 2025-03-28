@@ -1,47 +1,57 @@
 # 🌍 World’s Fair Evolution – Tableau Dashboard
 
-**Tools:** Tableau, Tableau Public  
+**Tools:** Tableau  
 **Skills:** Data Visualization, Trend Analysis, Dashboard Design, Historical Research
 
 ---
 
 ## ✅ About the Project  
-This Tableau dashboard presents a visual analysis of **World’s Fairs** (Expositions) across time, highlighting trends in cost, country participation, and fair types. The goal was to communicate insights from over 150 years of global exposition data in a clean and interactive format.
+This project visualizes the evolution of **World’s Fairs** from the 1800s to 2020, exploring how fair **costs, attendance, and duration** have shifted across time and categories. Built in Tableau, this interactive dashboard enables historical storytelling and insight into the global scale of expositions.
 
 ---
 
 ## ❓ The Problem  
-World’s Fairs are massive international exhibitions with historical significance — but their cost, reach, and frequency have changed dramatically. This project explores:
-- The rising **cost of fairs**  
-- The **geographic spread** of host countries  
-- The shift between **World Expos** and **Specialized Expos**
+World’s Fairs have transitioned from industrial showcases to massive commercial events. This dashboard helps answer:
+- How have costs escalated over time?
+- What countries hosted these events most often?
+- How do **World Expos** differ from **Specialized Expos**?
+- What is the average duration and visitor count?
 
 ---
 
 ## 📈 Results & Highlights
 
-- Built a **multi-panel Tableau dashboard** with:
-  - Bar chart of **cost per fair over time**  
-  - Country participation & host frequency  
-  - Filterable views by **expo category** and year  
-- Identified that costs rose sharply after 1950 — peaking at **$4.2B in 2010**  
-- World Expos have become more commercially intensive; Specialized Expos remain smaller in scale  
-- Dashboard included interactivity like category filters, hover labels, and tooltips
+- 📊 **Dashboard Features**:
+  - **Attendance Over Time** (Visitors in millions)
+  - **Cost Per Fair Over Time** (in USD)
+  - **Fair Duration Trend** (in months)
+  - Filters for **Country** and **Fair Category**
+- 💰 Identified dramatic cost inflation, peaking at **$4.2B in 2010**
+- 🌍 Highlighted U.S., France, and Japan as top hosts
+- 🧩 Combined storytelling and data interactivity using Tableau
+
+---
+
+## 📸 Dashboard Preview
+
+![World’s Fair Dashboard](World's%20Fair%20Dashboard.png)
+
+---
+
+## 🔍 Key Visuals
+
+### Cost of World’s Fairs Over Time  
+![Cost Graph](World's%20Fair%20Over%20Time.png)
 
 ---
 
 📎 **Files in this folder:**  
-- `World's Fair Evolution.twbx` – Tableau workbook  
-- `worlds_fairs_clean.csv` – Data source  
-- `World's Fair Over Time.png` – Dashboard preview image  
-
----
-
-## 📸 Preview
-
-![Dashboard Screenshot](World's%20Fair%20Over%20Time.png)
+- `World's Fair Evolution.twbx` – Full Tableau workbook  
+- `worlds_fairs_clean.csv` – Cleaned data  
+- `World's Fair Dashboard.png` – Main dashboard image  
+- `World's Fair Over Time.png` – Featured cost chart
 
 ---
 
 ## 🔗 View in Portfolio  
-[Read Project Summary on Notion](https://www.notion.so/your-notion-link)
+[📁 Read Full Project Summary on Notion](https://www.notion.so/your-notion-link)
