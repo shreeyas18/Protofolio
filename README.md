@@ -36,7 +36,6 @@ Hands-on projects showcasing predictive modeling, Python scripting, and ML found
 - 🧠 [COVID-19 Forecasting with Neural Networks](./covid19-neural-network)  
 - 📚 [Naïve Bayes, KNN & Decision Trees](./ml-classification-models)  
 - 🌲 [Ensemble Learning & Overfitting Labs](./ensemble-learning-overfitting)  
-- 🥇 [Olympic Trends – Shiny Dashboard](./olympics-shiny-dashboard)
 
 ---
 
@@ -45,7 +44,7 @@ Visual storytelling projects using Tableau and Shiny.
 
 - 🌿 [Renewable Energy Dashboard (Tableau)](./renewable-energy-dashboard)  
 - 🗺️ [World’s Fair Evolution (Tableau)](./worlds-fair-visualization)  
-- 🏆 [Olympics Visualization – Gender & Medal Analysis](./olympics-visuals)
+- 🏆 [Olympics Visualization – Gender & Medal Analysis](./olympics-visualization-shiny)
 
 ---
 
