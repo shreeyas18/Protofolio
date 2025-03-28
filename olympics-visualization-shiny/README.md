@@ -1,6 +1,6 @@
 # 🥇 Olympics Visualization – Gender & Medal Analysis (Shiny Dashboard)
 
-**Tools:** R, ggplot2, dplyr, tidyr, shiny, tibble, Quarto 
+**Tools:** R, ggplot2, dplyr, tidyr, shiny, tibble, Quarto  
 **Skills:** Data Visualization, Gender Equity Analysis, EDA, R Shiny App Development
 
 ---
