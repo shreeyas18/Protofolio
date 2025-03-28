@@ -59,6 +59,6 @@ Unique projects that show additional strengths in research, presentation, and le
 
 ## 📌 Want to Know More?
 
-Check out my [Notion Portfolio](https://www.notion.so/shreeyasampat) for visuals, dashboards, and deeper breakdowns of each project.
+Check out my [Portfolio]([https://www.notion.so/shreeyasampat](https://transparent-rook-33b.notion.site/Hey-I-m-Shreeya-Sampat-1c1c4f21290c80a7a02ef878ea11233c)) for visuals, dashboards, and deeper breakdowns of each project.
 
 Thank you for visiting!
