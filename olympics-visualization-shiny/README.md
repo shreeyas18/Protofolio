@@ -27,7 +27,7 @@ How can we explore historical trends in Olympic participation and medal distribu
 ---
 
 📎 **Files in this folder:**  
-- `Week8_Assignment.qmd` & 'Week8.qmd' – Full R Markdown code  
+- `Week8_Assignment.qmd` & `Week8.qmd` – Full R Markdown code  
 - `Week8_Assignment.html` – Rendered dashboard page  
 – PNGs of all major visual outputs  
 
