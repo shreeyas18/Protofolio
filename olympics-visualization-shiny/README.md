@@ -1,6 +1,6 @@
 # 🥇 Olympics Visualization – Gender & Medal Analysis (Shiny Dashboard)
 
-**Tools:** R, Shiny, ggplot2, dplyr  
+**Tools:** R, ggplot2, dplyr, tidyr, shiny, tibble, Quarto 
 **Skills:** Data Visualization, Gender Equity Analysis, EDA, R Shiny App Development
 
 ---
@@ -27,10 +27,9 @@ How can we explore historical trends in Olympic participation and medal distribu
 ---
 
 📎 **Files in this folder:**  
-- `Week8_Assignment.qmd` – Full R Markdown code  
+- `Week8_Assignment.qmd` & 'Week8.qmd' – Full R Markdown code  
 - `Week8_Assignment.html` – Rendered dashboard page  
-- `images/` – PNGs of all major visual outputs  
-- *(Optional)* `.R` scripts or hosted dashboard links (if published)
+– PNGs of all major visual outputs  
 
 ---
 
