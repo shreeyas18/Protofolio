@@ -30,7 +30,7 @@ As climate concerns grow, governments and energy providers are being pushed to i
 
 📎 **Files in this folder:**  
 - `Renewables Share Energy.twbx` – Tableau dashboard file  
-- Dashboard screenshot for portfolio view
+- [Dashboard screenshot](https://github.com/shreeyas18/Protofolio/blob/main/renewable-energy-dashboard/Renewables%20Energy%20Dashboard.png)
 
 ---
 
