@@ -44,7 +44,7 @@ Visual storytelling projects using Tableau and Shiny.
 
 - 🌿 [Renewable Energy Dashboard (Tableau)](./renewable-energy-dashboard)  
 - 🗺️ [World’s Fair Evolution (Tableau)](./worlds-fair-visualization)  
-- 🏆 [Olympics Visualization – Gender & Medal Analysis](./olympics-visualization-shiny)
+- 🥇 [Olympics Visualization – Gender & Medal Analysis](./olympics-visualization-shiny)
 
 ---
 
