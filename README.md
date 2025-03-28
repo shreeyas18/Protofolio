@@ -1,7 +1,7 @@
 # 👩‍💼 Shreeya Sampat | Business & Data Analytics Portfolio
 
 📍 **Business Analyst** | 📊 Data Analytics | 🗂️ Project Management  
-📫 Los Angeles, CA • [LinkedIn]([https://www.linkedin.com/in/shreeyasampat]) • sampatshreeya@gmail.com  
+📫 Los Angeles, CA • [LinkedIn](https://www.linkedin.com/in/shreeyasampat) • sampatshreeya@gmail.com  
 
 ---
 
