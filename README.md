@@ -43,7 +43,7 @@ Hands-on projects showcasing predictive modeling, Python scripting, and ML found
 Visual storytelling projects using Tableau and Shiny.
 
 - 🌿 [Renewable Energy Dashboard (Tableau)](./renewable-energy-dashboard)  
-- 🗺️ [World’s Fair Evolution (Tableau)](./worlds-fair-visualization)  
+- 🗺️ [World’s Fair Evolution (Tableau)](./worlds-fair-tableau-dashboard)  
 - 🥇 [Olympics Visualization – Gender & Medal Analysis](./olympics-visualization-shiny)
 
 ---
