@@ -29,7 +29,7 @@ How do we reduce overfitting in machine learning models while preserving predict
 
 📎 **Files in this folder:**  
 - Lab PDFs (7 & 8)  
-- Python scripts (optional for hands-on review)
+- Python scripts
 
 ---
 
