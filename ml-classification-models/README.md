@@ -29,7 +29,7 @@ Given labeled datasets, how can we predict class membership (e.g., spam vs. not 
 - `Lab 2 - Naïve Bayes Classification.pdf`  
 - `Lab 3 – Decision Tree and KNN.pdf`  
 - Python scripts
-- transfucions.csv Data set
+- transfusions.csv Data set
 
 ---
 
