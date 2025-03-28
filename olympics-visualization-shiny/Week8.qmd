@@ -1,0 +1,68 @@
+---
+title: "Week8"
+author: "Shreeya Sampat"
+format: html
+editor: visual
+---
+
+```{r}
+#| echo: false
+
+library(tidyverse)
+library(shiny)
+library(flexdashboard)
+library(ggiraph)
+library(DT)
+
+# Load the Tidy Tuesday data
+olympics <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-08-06/olympics.csv')
+
+# Explore the data
+head(olympics)
+summary(olympics)
+```
+
+---
+title: "Tidy Tuesday Shiny Dashboard"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+runtime: shiny
+---
+
+```{r setup, include = FALSE}
+
+library(tidyverse)
+library(shiny)
+library(flexdashboard)
+library(ggiraph)
+library(DT)
+
+
+selectInput("sport", "Select Sport:", choices = unique(olympics$sport), selected = "Athletics")
+selectInput("medal", "Select Medal Type:", choices = c("Gold", "Silver", "Bronze"), selected = "Gold")
+
+```
+
+```{r}
+renderPlot({
+  filtered_data <- olympics %>% filter(sport == input$sport & medal == input$medal)
+  
+  p <- ggplot(filtered_data, aes(x = year, y = age, color = team)) +
+    geom_point_interactive(aes(tooltip = paste(name, age)), size = 2) +
+    theme_minimal() +
+    labs(title = paste("Age of", input$medal, "Medalists in", input$sport), 
+         x = "Year", y = "Age")
+  
+  girafe(ggobj = p)
+})
+```
+
+```{r}
+renderDataTable({
+  filtered_data <- olympics %>% filter(sport == input$sport & medal == input$medal)
+  datatable(filtered_data)
+})
+
+```
