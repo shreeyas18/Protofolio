@@ -48,15 +48,6 @@ Visual storytelling projects using Tableau and Shiny.
 
 ---
 
-### 4. 💼 Other Projects
-Unique projects that show additional strengths in research, presentation, and leadership.
-
-- 🔐 [Smart Contract Risk Analysis (Externship)](./smart-contract-risk-analysis)  
-- 🎲 [Game Strategy Comparison: Catan vs Ticket to Ride](./board-game-strategy-analysis)  
-- 🧑‍🤝‍🧑 [Team Collaboration & Project Coordination (Capstone)](./team-leadership)
-
----
-
 ## 📌 Want to Know More?
 
 Check out my [Portfolio](https://transparent-rook-33b.notion.site/Hey-I-m-Shreeya-Sampat-1c1c4f21290c80a7a02ef878ea11233c) for visuals, dashboards, and deeper breakdowns of each project.
