@@ -31,4 +31,4 @@ SuckyCorps needed to make strategic decisions about which robot vacuum models to
 ---
 
 ## 🔗 View in Portfolio
-[Read Project Summary on Notion](https://www.notion.so/your-notion-link)
+[Read Project Summary on Portfolio](https://transparent-rook-33b.notion.site/Hey-I-m-Shreeya-Sampat-1c1c4f21290c80a7a02ef878ea11233c?p=1c3c4f21290c80d580ffdab20528592a&pm=c)
