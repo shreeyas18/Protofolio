@@ -30,4 +30,4 @@ Uber has faced ongoing conflicts with key stakeholders—especially around gig w
 ---
 
 ## 🔗 View in Portfolio
-[Read Project Summary on Notion](https://www.notion.so/your-notion-link)
+[Read Project Summary on Portofolio](https://transparent-rook-33b.notion.site/Hey-I-m-Shreeya-Sampat-1c1c4f21290c80a7a02ef878ea11233c?p=1c1c4f21290c81579a7fdbd5e908e7e9&pm=c)
