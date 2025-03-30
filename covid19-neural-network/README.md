@@ -34,4 +34,4 @@ Forecasting COVID-19 case numbers is critical for governments and public health 
 ---
 
 ## 🔗 View in Portfolio  
-[Read Project Summary on Notion](https://www.notion.so/your-notion-link)
+[Read Project Summary on Portofolio](https://transparent-rook-33b.notion.site/Hey-I-m-Shreeya-Sampat-1c1c4f21290c80a7a02ef878ea11233c?p=1c1c4f21290c815ca1d1e7a68edfb389&pm=c)
