@@ -34,4 +34,4 @@ How do we reduce overfitting in machine learning models while preserving predict
 ---
 
 ## 🔗 View in Portfolio  
-[Read Project Summary on Notion](https://www.notion.so/your-notion-link)
+[Read Project Summary on Portfolio](https://transparent-rook-33b.notion.site/Hey-I-m-Shreeya-Sampat-1c1c4f21290c80a7a02ef878ea11233c?p=1c4c4f21290c80ceb202ffe03a512725&pm=c)
