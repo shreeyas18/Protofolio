@@ -34,4 +34,4 @@ Given labeled datasets, how can we predict class membership (e.g., spam vs. not 
 ---
 
 ## 🔗 View in Portfolio  
-[Read Project Summary on Notion](https://transparent-rook-33b.notion.site/Hey-I-m-Shreeya-Sampat-1c1c4f21290c80a7a02ef878ea11233c?p=1c1c4f21290c81d69a00c66c41b044d5&pm=c)
+[Read Project Summary on Portofolio(https://transparent-rook-33b.notion.site/Hey-I-m-Shreeya-Sampat-1c1c4f21290c80a7a02ef878ea11233c?p=1c1c4f21290c81d69a00c66c41b044d5&pm=c)
