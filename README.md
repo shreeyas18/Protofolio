@@ -25,7 +25,6 @@ Projects focused on forecasting, strategy, and stakeholder-centered decision-mak
 - ✈️ [U.S. Air Traffic Forecasting (Team Lead)](./us-air-traffic-forecasting)  
 - 🚖 [Uber Stakeholder Strategy Analysis](./uber-stakeholder-strategy)  
 - 🤖 [SuckyCorps Product Strategy Analysis](./suckycorps-product-strategy)  
-- 📈 [Tableau Sales Dashboard (KPI Tracking)](./tableau-sales-dashboard)
 
 ---
 
@@ -45,6 +44,7 @@ Visual storytelling projects using Tableau and Shiny.
 - 🌿 [Renewable Energy Dashboard (Tableau)](./renewable-energy-dashboard)  
 - 🗺️ [World’s Fair Evolution (Tableau)](./worlds-fair-tableau-dashboard)  
 - 🥇 [Olympics Visualization – Gender & Medal Analysis](./olympics-visualization-shiny)
+- 📈 [Tableau Sales Dashboard (KPI Tracking)](./tableau-sales-dashboard)
 
 ---
 
