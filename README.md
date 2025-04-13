@@ -50,6 +50,6 @@ Visual storytelling projects using Tableau and Shiny.
 
 ## 📌 Want to Know More?
 
-Check out my [Portfolio]([https://savory-plantain-f46.notion.site/Hey-I-m-Shreeya-Sampat-1d356f971b5f8066bd3bf59a80de754d]) for visuals, dashboards, and deeper breakdowns of each project.
+Check out my [Portfolio](https://savory-plantain-f46.notion.site/Hey-I-m-Shreeya-Sampat-1d356f971b5f8066bd3bf59a80de754d) for visuals, dashboards, and deeper breakdowns of each project.
 
 Thank you for visiting!
