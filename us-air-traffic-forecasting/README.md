@@ -16,4 +16,4 @@ How can we accurately forecast airline passenger volumes to support industry pla
 
 📄 Final Report and slides are attached in this folder.
 
-[You Can View this in my Protofolio](https://transparent-rook-33b.notion.site/Hey-I-m-Shreeya-Sampat-1c1c4f21290c80a7a02ef878ea11233c?p=1c1c4f21290c81efa040c37fbfd7cce1&pm=c)
+[You Can View this in my Protofolio](https://savory-plantain-f46.notion.site/Hey-I-m-Shreeya-Sampat-1d356f971b5f8066bd3bf59a80de754d?p=1d356f971b5f81fb867ddec1f473ef98&pm=c)
