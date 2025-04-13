@@ -24,7 +24,6 @@ Projects focused on forecasting, strategy, and stakeholder-centered decision-mak
 
 - ✈️ [U.S. Air Traffic Forecasting (Team Lead)](./us-air-traffic-forecasting)  
 - 🚖 [Uber Stakeholder Strategy Analysis](./uber-stakeholder-strategy)  
-- 🍏 [Apple ML Workflow Automation – Airflow Case Study](./apple-airflow-case-study)  
 - 🤖 [SuckyCorps Product Strategy Analysis](./suckycorps-product-strategy)  
 - 📈 [Tableau Sales Dashboard (KPI Tracking)](./tableau-sales-dashboard)
 
@@ -33,6 +32,7 @@ Projects focused on forecasting, strategy, and stakeholder-centered decision-mak
 ### 2. 🧠 Machine Learning & Python Projects
 Hands-on projects showcasing predictive modeling, Python scripting, and ML foundations.
 
+- 🍏 [Apple ML Workflow Automation – Airflow Case Study](./apple-airflow-case-study)
 - 🧠 [COVID-19 Forecasting with Neural Networks](./covid19-neural-network)  
 - 📚 [Naïve Bayes, KNN & Decision Trees](./ml-classification-models)  
 - 🌲 [Ensemble Learning & Overfitting Labs](./ensemble-learning-overfitting)  
