@@ -33,4 +33,4 @@ How can sales managers and analysts quickly identify which regions and product c
 ---
 
 ## 🔗 View in Portfolio
-[Read Project Summary on Portofolio](https://transparent-rook-33b.notion.site/Hey-I-m-Shreeya-Sampat-1c1c4f21290c80a7a02ef878ea11233c?p=1c3c4f21290c8084b524f5e15841e86c&pm=c)
+[Read Project Summary on Portofolio](https://savory-plantain-f46.notion.site/Hey-I-m-Shreeya-Sampat-1d356f971b5f8066bd3bf59a80de754d?p=1d456f971b5f808f9352ee58127b2ad9&pm=c)
