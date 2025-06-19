@@ -164,7 +164,7 @@ Business Analyst | Data Strategist | Project Lead
 📍 Los Angeles, CA  
 📧 sampatshreeya@gmail.com  
 🔗 [LinkedIn](https://www.linkedin.com/in/shreeyasampat)  
-🔗 [View This Project in Portfolio](https://savory-plantain-f46.notion.site/Hey-I-m-Shreeya-Sampat-1d356f971b5f8066bd3bf59a80de754d)
+🔗 [View This Project in Portfolio](https://www.notion.so/Hey-I-m-Shreeya-Sampat-1d356f971b5f8066bd3bf59a80de754d?p=21756f971b5f80278a35ec89dcd7a936&pm=c)
 
 ---
 
