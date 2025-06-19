@@ -22,9 +22,10 @@ Welcome to my portfolio repository! This space highlights academic and personal 
 ### 1. 📊 Data & Business Analytics
 Projects focused on forecasting, strategy, and stakeholder-centered decision-making.
 
-- ✈️ [U.S. Air Traffic Forecasting (Team Lead)](./us-air-traffic-forecasting)  
-- 🚖 [Uber Stakeholder Strategy Analysis](./uber-stakeholder-strategy)  
-- 🤖 [SuckyCorps Product Strategy Analysis](./suckycorps-product-strategy)  
+- ✈️ [U.S. Air Traffic Forecasting (Team Lead)](./us-air-traffic-forecasting)
+- 🚕 [Rideshare Pricing & Demand Dynamics – ML Capstone](./rideshare-pricing-demand-ml) 
+- 🚖 [Uber Stakeholder Strategy Analysis](./uber-stakeholder-strategy)
+- 🤖 [SuckyCorps Product Strategy Analysis](./suckycorps-product-strategy) 
 
 ---
 
