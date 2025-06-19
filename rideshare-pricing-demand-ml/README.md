@@ -161,4 +161,9 @@ Business Analyst | Data Strategist | Project Lead
 
 ---
 
+## 🔗 View in Portfolio  
+[📁 Read Full Project Summary on Portofolio](https://savory-plantain-f46.notion.site/Hey-I-m-Shreeya-Sampat-1d356f971b5f8066bd3bf59a80de754d?p=1d356f971b5f8113b8d4e7f09cc74064&pm=c)
+
+---
+
 *Built with 💻 Python, ☕ coffee, and a passion for fair algorithms.*
